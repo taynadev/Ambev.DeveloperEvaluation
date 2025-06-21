@@ -1,7 +1,5 @@
-using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
-using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
@@ -48,7 +46,7 @@ public class Sale : BaseEntity
     /// </summary>
     private readonly List<SaleItem> _items = new();
     public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
-   
+
     /// <summary>
     /// Gets the total amount of the sale, excluding cancelled items.
     /// </summary>
@@ -62,7 +60,7 @@ public class Sale : BaseEntity
     /// <summary>
     /// Gets a value indicating whether the entire sale has been cancelled.
     /// </summary>
-    public bool IsCancelled { get; private set; }
+    public bool IsCanceled { get; private set; }
 
     /// <summary>
     /// Performs validation of the Sale entity using the SaleValidator rules.
@@ -126,7 +124,7 @@ public class Sale : BaseEntity
     /// <param name="unitPrice">Price per unit of the product.</param>
     public void AddItem(Guid productId, string productName, int quantity, decimal unitPrice)
     {
-        if (IsCancelled)
+        if (IsCanceled)
             throw new InvalidOperationException("Cannot add item to a cancelled sale");
 
         var item = new SaleItem(productId, productName, quantity, unitPrice);
@@ -138,7 +136,7 @@ public class Sale : BaseEntity
     /// </summary>
     public void Cancel()
     {
-        IsCancelled = true;
+        IsCanceled = true;
         foreach (var item in _items)
             item.Cancel();
     }
