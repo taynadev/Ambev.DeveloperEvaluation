@@ -4,9 +4,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
 {
 
     /// <summary>
-    /// Repository interface for Sale entity operations
+    /// Repository interface for Product entity operations
     /// </summary>
-    public interface ISaleRepository : IRepositoryBase<Sale>
+    public interface IProductRepository : IRepositoryBase<Product>
     {
     }
 }

@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
 /// <summary>
 /// Implementation of ISaleRepository for Sale-specific operations using Entity Framework Core
-/// Inherits basic CRUD from <see cref="RepositoryBase{User}"/>
+/// Inherits basic CRUD from <see cref="RepositoryBase{Sale}"/>
 /// </summary>
 public class SaleRepository : RepositoryBase<Sale>, ISaleRepository
 {
