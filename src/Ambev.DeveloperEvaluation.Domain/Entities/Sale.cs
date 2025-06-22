@@ -1,6 +1,7 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -50,11 +51,13 @@ public class Sale : BaseEntity
     /// <summary>
     /// Gets the total amount of the sale, excluding cancelled items.
     /// </summary>
+    [NotMapped]
     public decimal TotalAmount => _items.Where(i => !i.IsCanceled).Sum(i => i.TotalAmount);
 
     /// <summary>
     /// Gets the total amount with discount of the sale, excluding cancelled items.
     /// </summary>
+    [NotMapped]
     public decimal TotalAmountWithDiscount => _items.Where(i => !i.IsCanceled).Sum(i => i.TotalAmountWithDiscount);
 
     /// <summary>
