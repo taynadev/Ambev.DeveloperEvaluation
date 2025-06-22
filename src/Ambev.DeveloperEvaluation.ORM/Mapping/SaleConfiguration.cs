@@ -15,7 +15,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
 
         builder.Property(s => s.SaleNumber)
              .IsRequired()
-             .HasMaxLength(50);
+             .ValueGeneratedOnAdd();
 
         builder.Property(s => s.SaleDate)
             .IsRequired();

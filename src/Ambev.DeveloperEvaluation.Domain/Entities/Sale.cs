@@ -15,7 +15,7 @@ public class Sale : BaseEntity
     /// <summary>
     /// Gets the unique number assigned to this sale.
     /// </summary>
-    public string SaleNumber { get; private set; }
+    public long SaleNumber { get; private set; }
 
     /// <summary>
     /// Gets the date and time when the sale was created.
@@ -107,15 +107,40 @@ public class Sale : BaseEntity
     /// <param name="customerName">The name of the customer.</param>
     /// <param name="branchId">The ID of the branch.</param>
     /// <param name="branchName">The name of the branch.</param>
-    public Sale(string saleNumber, Guid customerId, string customerName, Guid branchId, string branchName)
+    public Sale(Guid customerId, string customerName, Guid branchId, string branchName)
     {
-        SaleNumber = saleNumber;
         SaleDate = DateTime.UtcNow;
         CustomerId = customerId;
         CustomerName = customerName;
         BranchId = branchId;
         BranchName = branchName;
     }
+
+    /// <summary>
+    /// Static factory method to create a sale from a cart.
+    /// </summary>
+    /// <param name="cart">The cart containing the products.</param>
+    /// <param name="customerName">The name of the customer (denormalized).</param>
+    /// <param name="branchId">The ID of the branch.</param>
+    /// <param name="branchName">The name of the branch (denormalized).</param>
+    /// <param name="saleNumber">The unique number of the sale.</param>
+    /// <returns>A fully initialized <see cref="Sale"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if cart is null.</exception>
+    public static Sale CreateFromCart(Cart cart, string customerName, Guid branchId, string branchName)
+    {
+        if (cart is null)
+            throw new ArgumentNullException(nameof(cart));
+
+        var sale = new Sale(cart.CustomerId, customerName, branchId, branchName);
+
+        foreach (var item in cart.Items)
+        {
+            sale.AddItem(item.ProductId, item.ProductName, item.Quantity, item.UnitPrice);
+        }
+
+        return sale;
+    }
+
 
     /// <summary>
     /// Adds a new item to the sale.

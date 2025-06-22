@@ -8,10 +8,6 @@ public class SaleValidator : AbstractValidator<Sale>
 {
     public SaleValidator()
     {
-        RuleFor(sale => sale.SaleNumber)
-           .NotEmpty().WithMessage("Sale number must be provided.")
-           .MaximumLength(50).WithMessage("Sale number cannot exceed 50 characters.");
-
         RuleFor(sale => sale.SaleDate)
             .NotEmpty().WithMessage("Sale date must be provided.")
             .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("Sale date cannot be in the future.");

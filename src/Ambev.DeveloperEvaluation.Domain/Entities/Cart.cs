@@ -17,6 +17,11 @@ public class Cart : BaseEntity
     public Guid CustomerId { get; private set; }
 
     /// <summary>
+    /// Gets the name of the customer that owns this cart (denormalized).
+    /// </summary>
+    public string CustomerName { get; private set; }
+
+    /// <summary>
     /// Gets or sets the creation timestamp of the cart.
     /// </summary>
     public DateTime CreatedAt { get; private set; }
@@ -48,9 +53,10 @@ public class Cart : BaseEntity
     /// Initializes a new cart for a specific customer.
     /// </summary>
     /// <param name="customerId">The ID of the customer.</param>
-    public Cart(Guid customerId)
+    public Cart(Guid customerId, string customerName)
     {
         CustomerId = customerId;
+        CustomerName = customerName;
         CreatedAt = DateTime.UtcNow;
     }
 

@@ -10,7 +10,11 @@ public class CartValidator : AbstractValidator<Cart>
         RuleFor(c => c.CustomerId)
             .NotEmpty().WithMessage("CustomerId is required.");
 
-          RuleForEach(c => c.Items)
+        RuleFor(c => c.CustomerName)
+            .NotEmpty().WithMessage("CustomerName is required.")
+            .MaximumLength(100).WithMessage("CustomerName cannot exceed 100 characters.");
+
+        RuleForEach(c => c.Items)
             .SetValidator(new CartItemValidator());
     }
 }

@@ -13,9 +13,11 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
         /// <remarks>
         /// Validation rules include:
         /// - CustomerId: Required
+        /// - CustomerName: Required
         public CreateCartValidator()
         {
             RuleFor(c => c.CustomerId).NotEmpty();
+            RuleFor(c => c.CustomerName).NotEmpty();
         }
     }
 }

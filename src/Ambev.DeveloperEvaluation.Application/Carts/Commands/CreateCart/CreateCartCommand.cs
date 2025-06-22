@@ -19,9 +19,14 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
     public class CreateCartCommand : IRequest<CreateCartResult>
     {
         /// <summary>
-        /// Gets or sets the ID of the customer who owns the cart.
+        /// The ID of the customer who owns the cart.
         /// </summary>
         public Guid CustomerId { get; set; }
+
+        /// <summary>
+        /// The name of the customer who owns the cart.
+        /// </summary>
+        public string CustomerName { get; set; }
 
         public ValidationResultDetail Validate()
         {
