@@ -95,7 +95,6 @@ public class CartItem : BaseEntity
     /// <listheader>The validation includes checking:</listheader>
     /// <list type="bullet">ProductId and ProductName must be provided</list>
     /// <list type="bullet">Quantity must be positive</list>
-    /// <list type="bullet">Unit price must be positive</list>
     /// </remarks>
     public ValidationResultDetail Validate()
     {

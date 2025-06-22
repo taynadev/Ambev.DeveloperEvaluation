@@ -10,10 +10,7 @@ public class CartValidator : AbstractValidator<Cart>
         RuleFor(c => c.CustomerId)
             .NotEmpty().WithMessage("CustomerId is required.");
 
-        RuleFor(c => c.CustomerId)
-            .NotEmpty().WithMessage("Customer id is required.");
-
-        RuleForEach(c => c.Items)
+          RuleForEach(c => c.Items)
             .SetValidator(new CartItemValidator());
     }
 }
