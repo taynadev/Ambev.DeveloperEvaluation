@@ -45,11 +45,9 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale
             }
 
             var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
+            var result = _mapper.Map<CreateSaleResult>(createdSale);
 
-            return new CreateSaleResult
-            {
-                Id = createdSale.Id
-            };
+            return result;
         }
     }
 }

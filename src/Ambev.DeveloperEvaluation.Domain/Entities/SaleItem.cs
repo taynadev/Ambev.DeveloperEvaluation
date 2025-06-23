@@ -142,13 +142,13 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <param name="unitPrice">The unit price at the time of sale.</param>
         public SaleItem(Guid productId, string productName, int quantity, decimal unitPrice)
         {
-            ValidateQuantity();
-
             Id = Guid.NewGuid();
             ProductId = productId;
             ProductName = productName;
             Quantity = quantity;
             UnitPrice = unitPrice;
+
+            ValidateQuantity();
         }
 
         /// <summary>

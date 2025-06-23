@@ -14,6 +14,8 @@ public class CreateProductProfile : Profile
     public CreateProductProfile()
     {
         CreateMap<CreateProductRequest, CreateProductCommand>();
+        CreateMap<RatingDtoRequest, RatingDto>();
         CreateMap<CreateProductResult, CreateProductResponse>();
+        CreateMap<RatingDtoResult, RatingDtoResponse>();
     }
 }

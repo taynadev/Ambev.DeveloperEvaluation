@@ -39,7 +39,7 @@
         /// <summary>
         /// Gets or sets the rating associated with the product.
         /// </summary>
-        public RatingDto? Rating { get; set; }
+        public RatingDtoResult? Rating { get; set; }
     }
 
     /// <summary>

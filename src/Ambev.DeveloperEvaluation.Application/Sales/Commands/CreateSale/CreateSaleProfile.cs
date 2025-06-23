@@ -16,7 +16,8 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale
                     cmd.CustomerName,
                     cmd.BranchId,
                     cmd.BranchName
-                ));
+                ))
+                .ForMember(dest => dest.Items, opt => opt.Ignore());
 
             CreateMap<CreateSaleItemDto, SaleItem>()
                 .ConstructUsing(item => new SaleItem(
@@ -25,6 +26,10 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale
                     item.Quantity,
                     item.UnitPrice
                 ));
+
+            CreateMap<Sale, CreateSaleResult>();
+
+            CreateMap<SaleItem, CreateSaleItemResultDto>();
         }
     }
 }
