@@ -49,7 +49,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartProduct
             if (cart == null)
                 throw new InvalidOperationException("Product not found.");
 
-            cart.AddItem(command.ProductId, command.Quantity, product!.UnitPrice);
+            cart.AddItem(command.ProductId, command.Quantity, product!.Price);
 
             await _cartRepository.UpdateAsync(cart, cancellationToken);
 

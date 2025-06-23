@@ -13,7 +13,12 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets or sets the name of the product.
         /// </summary>
-        public string Name { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the base unit price of the product.
+        /// </summary>
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the product.
@@ -22,9 +27,19 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public string? Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the base unit price of the product.
+        /// Gets or sets the category of the product.
         /// </summary>
-        public decimal UnitPrice { get; set; }
+        public string Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the URL or file path of the image associated with the object.
+        /// </summary>
+        public string Image { get; set; }
+
+        /// <summary>
+        /// Gets or sets the rating associated with the product.
+        /// </summary>
+        public Rating? Rating { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the product is active.

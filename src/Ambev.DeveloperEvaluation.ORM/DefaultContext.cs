@@ -12,6 +12,7 @@ public class DefaultContext : DbContext
     public DbSet<Sale> Sales { get; set; }
     public DbSet<SaleItem> SaleItems { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<Rating> Ratings { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartProduct> CartProducts { get; set; }
     public DbSet<Branch> Branches { get; set; }

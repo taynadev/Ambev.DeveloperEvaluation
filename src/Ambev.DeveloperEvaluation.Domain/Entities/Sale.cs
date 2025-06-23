@@ -135,7 +135,7 @@ public class Sale : BaseEntity
 
         foreach (var item in cart.CartProducts)
         {
-            sale.AddItem(item.ProductId, item.Product.Name, item.Quantity, item.Product.UnitPrice);
+            sale.AddItem(item.ProductId, item.Product.Title, item.Quantity, item.Product.Price);
         }
 
         return sale;

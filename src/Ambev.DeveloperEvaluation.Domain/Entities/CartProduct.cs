@@ -40,7 +40,7 @@ public class CartProduct : BaseEntity
     /// Gets the total amount without discount.
     /// </summary>
     [NotMapped]
-    public decimal TotalAmount => Quantity * Product.UnitPrice;
+    public decimal TotalAmount => Quantity * Product.Price;
 
     /// <summary>
     /// Gets the applicable discount percentage.
