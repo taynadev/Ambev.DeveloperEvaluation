@@ -25,7 +25,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default)
+        public virtual async Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default)
         {
             await _dbSet.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
@@ -33,19 +33,19 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _dbSet.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<T>> ListAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<IEnumerable<T>> ListAsync(CancellationToken cancellationToken = default)
         {
             return await _dbSet.ToListAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
+        public virtual async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
             _dbSet.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
@@ -53,7 +53,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var entity = await GetByIdAsync(id, cancellationToken);
             if (entity == null)
@@ -65,9 +65,14 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _dbSet.AnyAsync(e => e.Id == id, cancellationToken);
+        }
+
+        public virtual async Task<(List<T> Items, int TotalCount)> ListWithQueryParamsAsync(Dictionary<string, string?> queryParams)
+        {
+            return await _dbSet.AsQueryable().ApplyQueryParametersAsync(queryParams);
         }
     }
 }

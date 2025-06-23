@@ -27,7 +27,7 @@
         /// <summary>
         /// Gets or sets the unique identifier of the customer.
         /// </summary>
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the denormalized name of the customer.

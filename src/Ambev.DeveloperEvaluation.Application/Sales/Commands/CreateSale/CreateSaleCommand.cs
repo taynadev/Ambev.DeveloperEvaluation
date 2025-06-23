@@ -13,7 +13,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale
     /// </remarks>
     public class CreateSaleCommand : IRequest<CreateSaleResult>
     {
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
         public string CustomerName { get; set; } = string.Empty;
         public Guid BranchId { get; set; }
         public string BranchName { get; set; } = string.Empty;

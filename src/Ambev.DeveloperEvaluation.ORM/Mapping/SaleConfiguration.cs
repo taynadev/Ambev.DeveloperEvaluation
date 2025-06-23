@@ -20,11 +20,11 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(s => s.SaleDate)
             .IsRequired();
 
-        builder.Property(s => s.CustomerId)
+        builder.Property(s => s.UserId)
             .IsRequired()
             .HasColumnType("uuid");
 
-        builder.Property(s => s.CustomerName)
+        builder.Property(s => s.UserName)
             .IsRequired()
             .HasMaxLength(100);
 

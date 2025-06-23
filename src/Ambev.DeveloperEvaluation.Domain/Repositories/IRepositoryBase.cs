@@ -55,5 +55,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>True if the entity exists, false otherwise.</returns>
         Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<(List<T> Items, int TotalCount)> ListWithQueryParamsAsync(Dictionary<string, string?> queryParams);
     }
 }

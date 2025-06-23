@@ -13,12 +13,12 @@
         /// <summary>
         /// The ID of the customer that owns this cart.
         /// </summary>
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
         /// Tthe creation timestamp of the cart.
         /// </summary>
-        public DateTime CreatedAt { get; set; }
+        public DateTime Date { get; set; }
 
         /// <summary>
         /// The total amount of all items in the cart (without discounts).
@@ -33,13 +33,13 @@
         /// <summary>
         /// The list of items currently in the cart.
         /// </summary>
-        public List<GetCartItemResult> Items { get; set; } = [];
+        public List<GetCartProductResult> Products { get; set; } = [];
     }
 
     /// <summary>
     /// DTO containing information about a single item in a cart.
     /// </summary>
-    public class GetCartItemResult
+    public class GetCartProductResult
     {
         /// <summary>
         /// The ID of the cart item.
@@ -50,11 +50,6 @@
         /// The product ID of the item in the cart.
         /// </summary>
         public Guid ProductId { get; set; }
-
-        /// <summary>
-        /// The product name of the item in the cart.
-        /// </summary>
-        public string ProductName { get; set; } = string.Empty;
 
         /// <summary>
         /// the quantity of the product.

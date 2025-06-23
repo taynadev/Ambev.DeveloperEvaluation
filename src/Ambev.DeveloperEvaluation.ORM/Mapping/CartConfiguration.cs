@@ -13,11 +13,10 @@ public class CartConfiguration : IEntityTypeConfiguration<Cart>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
 
-        builder.Property(c => c.CustomerId).IsRequired();
-        builder.Property(c => c.CustomerName).IsRequired().HasMaxLength(100);
-        builder.Property(c => c.CreatedAt).IsRequired();
+        builder.Property(c => c.UserId).IsRequired();
+        builder.Property(c => c.Date).IsRequired();
 
-        builder.HasMany(c => c.Items)
+        builder.HasMany(c => c.CartProducts)
             .WithOne()
             .HasForeignKey(i => i.CartId)
             .OnDelete(DeleteBehavior.Cascade);

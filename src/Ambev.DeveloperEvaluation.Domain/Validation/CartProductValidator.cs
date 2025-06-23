@@ -3,16 +3,12 @@ using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Validation;
 
-public class CartItemValidator : AbstractValidator<CartItem>
+public class CartProductValidator : AbstractValidator<CartProduct>
 {
-    public CartItemValidator()
+    public CartProductValidator()
     {
         RuleFor(i => i.ProductId)
             .NotEmpty().WithMessage("ProductId is required.");
-
-        RuleFor(i => i.ProductName)
-            .NotEmpty().WithMessage("Product name is required.")
-            .MaximumLength(100).WithMessage("Product name cannot exceed 100 characters.");
 
         RuleFor(i => i.Quantity)
             .GreaterThan(0).WithMessage("Quantity must be greater than 0.")

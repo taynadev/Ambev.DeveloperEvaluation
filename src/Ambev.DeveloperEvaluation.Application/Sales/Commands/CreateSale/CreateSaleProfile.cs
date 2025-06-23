@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale
         {
             CreateMap<CreateSaleCommand, Sale>()
                 .ConstructUsing(cmd => new Sale(
-                    cmd.CustomerId,
+                    cmd.UserId,
                     cmd.CustomerName,
                     cmd.BranchId,
                     cmd.BranchName

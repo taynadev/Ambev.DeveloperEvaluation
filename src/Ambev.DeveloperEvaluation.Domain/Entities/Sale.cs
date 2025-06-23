@@ -25,12 +25,12 @@ public class Sale : BaseEntity
     /// <summary>
     /// Gets the ID of the customer making the purchase.
     /// </summary>
-    public Guid CustomerId { get; private set; }
+    public Guid UserId { get; private set; }
 
     /// <summary>
     /// Gets the name of the customer, denormalized for display.
     /// </summary>
-    public string CustomerName { get; private set; }
+    public string UserName { get; private set; }
 
     /// <summary>
     /// Gets the ID of the branch where the sale occurred.
@@ -77,7 +77,7 @@ public class Sale : BaseEntity
     /// <listheader>The validation includes checking:</listheader>
     /// <list type="bullet">SaleNumber provided and length</list>
     /// <list type="bullet">SaleDate provided and value</list>
-    /// <list type="bullet">CustomerId provided</list>
+    /// <list type="bullet">UserId provided</list>
     /// <list type="bullet">CustomerName provided</list>
     /// <list type="bullet">BranchId provided</list>
     /// <list type="bullet">BranchName  provided and length</list>
@@ -103,15 +103,15 @@ public class Sale : BaseEntity
     /// Sets base information and timestamps.
     /// </summary>
     /// <param name="saleNumber">The unique number of the sale.</param>
-    /// <param name="customerId">The ID of the customer.</param>
+    /// <param name="userId">The ID of the customer.</param>
     /// <param name="customerName">The name of the customer.</param>
     /// <param name="branchId">The ID of the branch.</param>
     /// <param name="branchName">The name of the branch.</param>
-    public Sale(Guid customerId, string customerName, Guid branchId, string branchName)
+    public Sale(Guid userId, string customerName, Guid branchId, string branchName)
     {
         SaleDate = DateTime.UtcNow;
-        CustomerId = customerId;
-        CustomerName = customerName;
+        UserId = userId;
+        UserName = customerName;
         BranchId = branchId;
         BranchName = branchName;
     }
@@ -131,11 +131,11 @@ public class Sale : BaseEntity
         if (cart is null)
             throw new ArgumentNullException(nameof(cart));
 
-        var sale = new Sale(cart.CustomerId, customerName, branchId, branchName);
+        var sale = new Sale(cart.UserId, customerName, branchId, branchName);
 
-        foreach (var item in cart.Items)
+        foreach (var item in cart.CartProducts)
         {
-            sale.AddItem(item.ProductId, item.ProductName, item.Quantity, item.UnitPrice);
+            sale.AddItem(item.ProductId, item.Product.Name, item.Quantity, item.Product.UnitPrice);
         }
 
         return sale;

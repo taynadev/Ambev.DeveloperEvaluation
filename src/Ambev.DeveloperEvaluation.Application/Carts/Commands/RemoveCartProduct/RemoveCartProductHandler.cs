@@ -1,38 +1,35 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartItem
+namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.RemoveCartProduct
 {
     /// <summary>
-    /// Handler for processing <see cref="AddCartItemCommand"/> requests.
+    /// Handler for processing <see cref="RemoveCartProductCommand"/> requests.
     /// </summary>
-    public class AddCartItemHandler : IRequestHandler<AddCartItemCommand, AddCartItemResult>
+    public class RemoveCartProductHandler : IRequestHandler<RemoveCartProductCommand, RemoveCartProductResult>
     {
         private readonly ICartRepository _cartRepository;
-        private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes a new instance of AddCartItemHandler
+        /// Initializes a new instance of RemoveCartProductHandler
         /// </summary>
         /// <param name="cartRepository">The Cart repository</param>
-        /// <param name="mapper">The AutoMapper instance</param>
-        public AddCartItemHandler(ICartRepository cartRepository, IMapper mapper)
+        public RemoveCartProductHandler(ICartRepository cartRepository)
         {
             _cartRepository = cartRepository;
-            _mapper = mapper;
         }
 
+
         /// <summary>
-        /// Handles the AddCartItemCommand request
+        /// Handles the RemoveCartProductCommand request
         /// </summary>
-        /// <param name="command">The AddCartItem command</param>
+        /// <param name="command">The RemoveCartProduct command</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The cart details</returns>
-        public async Task<AddCartItemResult> Handle(AddCartItemCommand command, CancellationToken cancellationToken)
+        /// <returns>The cart removed details</returns>
+        public async Task<RemoveCartProductResult> Handle(RemoveCartProductCommand command, CancellationToken cancellationToken)
         {
-            var validator = new AddCartItemValidator();
+            var validator = new RemoveCartProductValidator();
             var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
             if (!validationResult.IsValid)
@@ -42,11 +39,11 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartItem
             if (cart == null)
                 throw new InvalidOperationException("Cart not found.");
 
-            cart.AddItem(command.ProductId, command.ProductName, command.Quantity, command.UnitPrice);
+            cart.RemoveItem(command.ItemId);
 
             await _cartRepository.UpdateAsync(cart, cancellationToken);
 
-            return new AddCartItemResult
+            return new RemoveCartProductResult
             {
                 CartId = cart.Id,
                 TotalAmount = cart.TotalAmount,

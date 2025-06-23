@@ -9,12 +9,22 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// Represents an item in a customer's cart.
 /// Handles quantity and pricing logic with discount calculation.
 /// </summary>
-public class CartItem : BaseEntity
+public class CartProduct : BaseEntity
 {
+    /// <summary>
+    /// Gets or sets the quantity of the product.
+    /// </summary>
+    public int Quantity { get; private set; }
+
     /// <summary>
     /// Gets or sets the identifier of the cart this item belongs to.
     /// </summary>
     public Guid CartId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the cart this item belongs to.
+    /// </summary>
+    public Cart Cart { get; set; }
 
     /// <summary>
     /// Gets or sets the product ID added to the cart.
@@ -22,25 +32,15 @@ public class CartItem : BaseEntity
     public Guid ProductId { get; private set; }
 
     /// <summary>
-    /// Gets or sets the name of the product.
+    /// Gets or sets the product added to the cart.
     /// </summary>
-    public string ProductName { get; private set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the quantity of the product.
-    /// </summary>
-    public int Quantity { get; private set; }
-
-    /// <summary>
-    /// Gets or sets the unit price of the product.
-    /// </summary>
-    public decimal UnitPrice { get; private set; }
+    public Product Product { get; private set; }
 
     /// <summary>
     /// Gets the total amount without discount.
     /// </summary>
     [NotMapped]
-    public decimal TotalAmount => Quantity * UnitPrice;
+    public decimal TotalAmount => Quantity * Product.UnitPrice;
 
     /// <summary>
     /// Gets the applicable discount percentage.
@@ -73,18 +73,16 @@ public class CartItem : BaseEntity
     }
 
     /// <summary>
-    /// Initializes a new instance of the CartItem class.
+    /// Initializes a new instance of the CartProduct class.
     /// </summary>
-    public CartItem(Guid productId, string productName, int quantity, decimal unitPrice)
+    public CartProduct(Guid productId, int quantity)
     {
         ProductId = productId;
-        ProductName = productName;
         Quantity = quantity;
-        UnitPrice = unitPrice;
     }
 
     /// <summary>
-    /// Performs validation of the CartItem entity using the CartItemValidator rules.
+    /// Performs validation of the CartProduct entity using the CartProductValidator rules.
     /// </summary>
     /// <returns>
     /// A <see cref="ValidationResultDetail"/> containing:
@@ -98,7 +96,7 @@ public class CartItem : BaseEntity
     /// </remarks>
     public ValidationResultDetail Validate()
     {
-        var validator = new CartItemValidator();
+        var validator = new CartProductValidator();
         var result = validator.Validate(this);
         return new ValidationResultDetail
         {
@@ -108,7 +106,7 @@ public class CartItem : BaseEntity
     }
 
     /// <summary>
-    /// Required by EF Core.
+    /// Initializes a new instance of the CartProduct class.
     /// </summary>
-    protected CartItem() { }
+    protected CartProduct() { }
 }

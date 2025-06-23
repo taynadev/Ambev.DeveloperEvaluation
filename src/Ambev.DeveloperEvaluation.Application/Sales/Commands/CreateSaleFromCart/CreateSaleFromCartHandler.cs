@@ -14,6 +14,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSaleFromCar
     {
         private readonly ICartRepository _cartRepository;
         private readonly ISaleRepository _saleRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMediator _mediator;
 
         /// <summary>
@@ -26,11 +27,13 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSaleFromCar
         public CreateSaleFromCartHandler(
             ICartRepository cartRepository,
             ISaleRepository saleRepository,
+            IUserRepository userRepository,
             IMapper mapper,
             IMediator mediator)
         {
             _cartRepository = cartRepository;
             _saleRepository = saleRepository;
+            _userRepository = userRepository;
             _mediator = mediator;
         }
 
@@ -51,8 +54,10 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSaleFromCar
             if (cart is null)
                 throw new InvalidOperationException("Cart not found.");
 
+            var customer = await _userRepository.GetByIdAsync(cart.UserId, cancellationToken);
 
-            var sale = Sale.CreateFromCart(cart, cart.CustomerName, command.BranchId, command.BranchName);
+
+            var sale = Sale.CreateFromCart(cart, customer.Username, command.BranchId, command.BranchName);
 
             await _saleRepository.CreateAsync(sale, cancellationToken);
 

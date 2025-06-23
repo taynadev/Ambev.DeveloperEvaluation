@@ -1,9 +1,9 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartItem
+﻿namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartProduct
 {
     /// <summary>
     /// Response returned after successfully adding an item to the cart.
     /// </summary>
-    public class AddCartItemResult
+    public class AddCartProductResult
     {
         /// <summary>
         /// The identifier of the updated cart.

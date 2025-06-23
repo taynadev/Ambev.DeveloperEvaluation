@@ -1,7 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.RemoveCartItem
+namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.RemoveCartProduct
 {
     /// <summary>
     /// Command to remove an item from a customer's cart.
@@ -9,12 +9,12 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.RemoveCartItem
     /// <remarks>
     /// This command removes a specific item from a cart using the cart ID and item ID.
     /// It implements <see cref="IRequest{TResponse}"/> to initiate the request 
-    /// that returns a <see cref="RemoveCartItemResult"/>.
+    /// that returns a <see cref="RemoveCartProductResult"/>.
     /// 
-    /// It is validated by <see cref="RemoveCartItemValidator"/> and handled by <see cref="RemoveCartItemHandler"/>.
+    /// It is validated by <see cref="RemoveCartProductValidator"/> and handled by <see cref="RemoveCartProductHandler"/>.
     /// </remarks>
     /// </remarks>
-    public class RemoveCartItemCommand : IRequest<RemoveCartItemResult>
+    public class RemoveCartProductCommand : IRequest<RemoveCartProductResult>
     {
         /// <summary>
         /// The ID of the cart from which the item will be removed.
@@ -28,7 +28,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.RemoveCartItem
 
         public ValidationResultDetail Validate()
         {
-            var validator = new RemoveCartItemValidator();
+            var validator = new RemoveCartProductValidator();
             var result = validator.Validate(this);
             return new ValidationResultDetail
             {

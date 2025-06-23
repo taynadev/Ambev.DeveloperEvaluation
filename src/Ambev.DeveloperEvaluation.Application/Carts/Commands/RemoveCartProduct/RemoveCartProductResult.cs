@@ -1,9 +1,9 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.RemoveCartItem
+﻿namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.RemoveCartProduct
 {
     /// <summary>
     /// Response returned after successfully removing an item from the cart.
     /// </summary>
-    public class RemoveCartItemResult
+    public class RemoveCartProductResult
     {
         /// <summary>
         /// The identifier of the updated cart.

@@ -1,7 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartItem
+namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartProduct
 {
     /// <summary>
     /// Command to add a new item to a customer's cart.
@@ -9,16 +9,16 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartItem
     /// <remarks>
     /// This command contains the information needed to add a product to an existing cart.
     ///It implements <see cref="IRequest{TResponse}"/> to initiate the request 
-    /// that returns a <see cref="AddCartItemResult"/>.
+    /// that returns a <see cref="AddCartProductResult"/>.
     /// 
-    /// It is validated by <see cref="AddCartItemValidator"/> and handled by <see cref="AddCartItemHandler"/>.
+    /// It is validated by <see cref="AddCartProductValidator"/> and handled by <see cref="AddCartProductHandler"/>.
     /// </remarks>
-    public class AddCartItemCommand : IRequest<AddCartItemResult>
+    public class AddCartProductCommand : IRequest<AddCartProductResult>
     {
         /// <summary>
-        /// The identifier of the cart.
+        /// The identifier of the customer's cart.
         /// </summary>
-        public Guid CartId { get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
         /// The identifier of the product.
@@ -26,23 +26,13 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartItem
         public Guid ProductId { get; set; }
 
         /// <summary>
-        /// The name of the product.
-        /// </summary>
-        public string ProductName { get; set; } = string.Empty;
-
-        /// <summary>
         /// The quantity to be added.
         /// </summary>
         public int Quantity { get; set; }
 
-        /// <summary>
-        /// The unit price of the product.
-        /// </summary>
-        public decimal UnitPrice { get; set; }
-
         public ValidationResultDetail Validate()
         {
-            var validator = new AddCartItemValidator();
+            var validator = new AddCartProductValidator();
             var result = validator.Validate(this);
             return new ValidationResultDetail
             {

@@ -12,10 +12,10 @@ public class SaleValidator : AbstractValidator<Sale>
             .NotEmpty().WithMessage("Sale date must be provided.")
             .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("Sale date cannot be in the future.");
 
-        RuleFor(sale => sale.CustomerId)
+        RuleFor(sale => sale.UserId)
             .NotEmpty().WithMessage("Customer ID must be provided.");
 
-        RuleFor(sale => sale.CustomerName)
+        RuleFor(sale => sale.UserName)
             .NotEmpty().WithMessage("Customer name must be provided.")
             .MaximumLength(100).WithMessage("Customer name cannot exceed 100 characters.");
 

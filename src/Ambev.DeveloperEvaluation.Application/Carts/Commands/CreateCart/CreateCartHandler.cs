@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartProduct;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -13,16 +14,18 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
     {
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
         /// <summary>
         /// Initializes a new instance of CreateCartHandler
         /// </summary>
         /// <param name="cartRepository">The cart repository</param>
         /// <param name="mapper">The AutoMapper instance</param>
-        public CreateCartHandler(ICartRepository cartRepository, IMapper mapper)
+        public CreateCartHandler(ICartRepository cartRepository, IMapper mapper, IMediator mediator)
         {
             _cartRepository = cartRepository;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -41,7 +44,27 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
 
             var cart = _mapper.Map<Cart>(command);
             var created = await _cartRepository.CreateAsync(cart, cancellationToken);
-            return _mapper.Map<CreateCartResult>(created);
+            var result = _mapper.Map<CreateCartResult>(created);
+
+            foreach (var item in cart.CartProducts)
+            {
+                var addCartProductCommand = new AddCartProductCommand
+                {
+                    UserId = cart.UserId,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                };
+                await _mediator.Send(addCartProductCommand, cancellationToken);
+
+                result.Products.Add(new CartProductResultDto
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                });
+            }
+
+            
+            return result;
         }
     }
 }

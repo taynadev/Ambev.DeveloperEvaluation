@@ -20,16 +20,25 @@ public class CartRepository : RepositoryBase<Cart>, ICartRepository
         _context = context;
     }
 
+    public override async Task<Cart?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _context.Carts
+            .Include(c => c.CartProducts)
+            .ThenInclude(p => p.Product)
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+
+    }
+
     /// <summary>
     /// Retrieves a cart by the customer's unique identifier, including cart items
     /// </summary>
-    /// <param name="customerId">The unique identifier of the customer</param>
+    /// <param name="userId">The unique identifier of the customer</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The cart if found, or null otherwise</returns>
-    public async Task<Cart?> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default)
+    public async Task<Cart?> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         return await _context.Carts
-            .Include(c => c.Items)
-            .FirstOrDefaultAsync(c => c.CustomerId == customerId, cancellationToken);
+            .Include(c => c.CartProducts)
+            .FirstOrDefaultAsync(c => c.UserId == userId, cancellationToken);
     }
 }

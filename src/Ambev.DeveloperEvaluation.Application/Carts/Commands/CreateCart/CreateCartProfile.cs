@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartProduct;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
@@ -12,6 +13,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
         {
             CreateMap<CreateCartCommand, Cart>();
             CreateMap<Cart, CreateCartResult>();
+
         }
     }
 }

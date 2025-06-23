@@ -38,7 +38,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.ClearCart
             if (cart == null)
                 throw new InvalidOperationException("Cart not found.");
 
-            foreach (var item in cart.Items.ToList())
+            foreach (var item in cart.CartProducts.ToList())
             {
                 cart.RemoveItem(item.Id);
             }

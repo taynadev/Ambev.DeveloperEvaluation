@@ -14,23 +14,18 @@ public class Cart : BaseEntity
     /// <summary>
     /// Gets the ID of the customer that owns this cart.
     /// </summary>
-    public Guid CustomerId { get; private set; }
-
-    /// <summary>
-    /// Gets the name of the customer that owns this cart (denormalized).
-    /// </summary>
-    public string CustomerName { get; private set; }
+    public Guid UserId { get; private set; }
 
     /// <summary>
     /// Gets or sets the creation timestamp of the cart.
     /// </summary>
-    public DateTime CreatedAt { get; private set; }
+    public DateTime Date { get; private set; }
 
     /// <summary>
     /// Gets the list of items currently in the cart.
     /// </summary>
-    private readonly List<CartItem> _items = new();
-    public IReadOnlyCollection<CartItem> Items => _items.AsReadOnly();
+    private readonly List<CartProduct> _items = new();
+    public IReadOnlyCollection<CartProduct> CartProducts => _items.AsReadOnly();
 
     /// <summary>
     /// Gets the total amount of all items in the cart (without discounts).
@@ -52,18 +47,17 @@ public class Cart : BaseEntity
     /// <summary>
     /// Initializes a new cart for a specific customer.
     /// </summary>
-    /// <param name="customerId">The ID of the customer.</param>
-    public Cart(Guid customerId, string customerName)
+    /// <param name="userId">The ID of the customer.</param>
+    public Cart(Guid userId, DateTime date)
     {
-        CustomerId = customerId;
-        CustomerName = customerName;
-        CreatedAt = DateTime.UtcNow;
+        UserId = userId;
+        Date = date;
     }
 
     /// <summary>
     /// Adds a product to the cart.
     /// </summary>
-    public void AddItem(Guid productId, string productName, int quantity, decimal unitPrice)
+    public void AddItem(Guid productId, int quantity, decimal unitPrice)
     {
         var existingItem = _items.FirstOrDefault(i => i.ProductId == productId);
         if (existingItem is not null)
@@ -72,7 +66,7 @@ public class Cart : BaseEntity
         }
         else
         {
-            var item = new CartItem(productId, productName, quantity, unitPrice);
+            var item = new CartProduct(productId,  quantity);
             _items.Add(item);
         }
     }
@@ -97,7 +91,7 @@ public class Cart : BaseEntity
     /// </returns>
     /// <remarks>
     /// <listheader>The validation includes checking:</listheader>
-    /// <list type="bullet">CustomerId must be provided</list>
+    /// <list type="bullet">UserId must be provided</list>
     /// </remarks>
     public ValidationResultDetail Validate()
     {

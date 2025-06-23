@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartProduct;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
@@ -21,12 +22,14 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
         /// <summary>
         /// The ID of the customer who owns the cart.
         /// </summary>
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
-        /// The name of the customer who owns the cart.
+        /// The creation date of the cart.
         /// </summary>
-        public string CustomerName { get; set; }
+        public DateTime Date { get; set; }
+
+        public List<CartProductDto> Products { get; set; } = [];
 
         public ValidationResultDetail Validate()
         {
@@ -38,5 +41,29 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
                 Errors = result.Errors.Select(e => (ValidationErrorDetail)e)
             };
         }
+    }
+
+    /// <summary>
+    /// Command to add a new item to a customer's cart.
+    /// </summary>
+    /// <remarks>
+    /// This command contains the information needed to add a product to an existing cart.
+    ///It implements <see cref="IRequest{TResponse}"/> to initiate the request 
+    /// that returns a <see cref="AddCartProductResult"/>.
+    /// 
+    /// It is validated by <see cref="AddCartProductValidator"/> and handled by <see cref="AddCartProductHandler"/>.
+    /// </remarks>
+    public class CartProductDto 
+    {
+    
+        /// <summary>
+        /// The identifier of the product.
+        /// </summary>
+        public Guid ProductId { get; set; }
+
+        /// <summary>
+        /// The quantity to be added.
+        /// </summary>
+        public int Quantity { get; set; }
     }
 }

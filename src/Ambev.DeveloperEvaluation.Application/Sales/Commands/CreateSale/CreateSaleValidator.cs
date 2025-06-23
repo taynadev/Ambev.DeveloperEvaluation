@@ -12,14 +12,14 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale
         /// </summary>
         /// <remarks>
         /// Validation rules include:
-        ///  - CustomerId: Required
+        ///  - UserId: Required
         ///  - CustomerName: Required and length limited to 100 characters
         ///  - BranchId: Required
         ///  - BranchName: Required and length limited to 100 characters
         ///  - Items: At least one item is required
         public CreateSaleValidator()
         {
-            RuleFor(x => x.CustomerId).NotEmpty();
+            RuleFor(x => x.UserId).NotEmpty();
             RuleFor(x => x.CustomerName).NotEmpty().MaximumLength(100);
             RuleFor(x => x.BranchId).NotEmpty();
             RuleFor(x => x.BranchName).NotEmpty().MaximumLength(100);
