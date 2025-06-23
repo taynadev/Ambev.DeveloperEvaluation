@@ -15,6 +15,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSaleFromCar
         private readonly ICartRepository _cartRepository;
         private readonly ISaleRepository _saleRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
         /// <summary>
@@ -34,6 +35,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSaleFromCar
             _cartRepository = cartRepository;
             _saleRepository = saleRepository;
             _userRepository = userRepository;
+            _mapper = mapper;
             _mediator = mediator;
         }
 
@@ -52,23 +54,20 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSaleFromCar
 
             var cart = await _cartRepository.GetByIdAsync(command.CartId, cancellationToken);
             if (cart is null)
-                throw new InvalidOperationException("Cart not found.");
+                throw new InvalidOperationException("Cart not found by the cartId informed.");
 
             var customer = await _userRepository.GetByIdAsync(cart.UserId, cancellationToken);
-
+            if(customer is null)
+                throw new InvalidOperationException("Customer not found by the userId of the Cart informed."); 
 
             var sale = Sale.CreateFromCart(cart, customer.Username, command.BranchId, command.BranchName);
 
-            await _saleRepository.CreateAsync(sale, cancellationToken);
+            var result = await _saleRepository.CreateAsync(sale, cancellationToken);
 
             // Clear cart after sale creation
             await _mediator.Send(new ClearCartCommand { CartId = command.CartId }, cancellationToken);
 
-            return new CreateSaleFromCartResult
-            {
-                SaleId = sale.Id,
-                SaleNumber = sale.SaleNumber
-            };
+            return _mapper.Map<CreateSaleFromCartResult>(result);
         }
     }
 }
