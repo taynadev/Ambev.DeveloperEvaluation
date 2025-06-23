@@ -3,9 +3,9 @@
 namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById
 {
     /// <summary>
-    /// Validator for <see cref="GetCartByIdQuery"/>, ensuring a valid CartId is provided.
+    /// Validator for <see cref="GetCartByIdCommand"/>, ensuring a valid CartId is provided.
     /// </summary>
-    public class GetCartByIdQueryValidator : AbstractValidator<GetCartByIdQuery>
+    public class GetCartByIdQueryValidator : AbstractValidator<GetCartByIdCommand>
     {
         /// <summary>
         /// Initializes a new instance of the GetCartByIdQueryValidator with defined validation rules.
@@ -15,7 +15,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById
         ///  - CartId: Required
         public GetCartByIdQueryValidator()
         {
-            RuleFor(x => x.CartId).NotEmpty().WithMessage("CartId must be provided.");
+            RuleFor(x => x.Id).NotEmpty().WithMessage("CartId must be provided.");
         }
     }
 }

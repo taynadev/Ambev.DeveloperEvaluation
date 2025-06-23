@@ -1,7 +1,7 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById
 {
     /// <summary>
-    /// DTO containing cart information returned by <see cref="GetCartByIdQuery"/>.
+    /// DTO containing cart information returned by <see cref="GetCartByIdCommand"/>.
     /// </summary>
     public class GetCartByIdResult
     {

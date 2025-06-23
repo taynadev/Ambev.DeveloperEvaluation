@@ -6,12 +6,22 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById
     /// <summary>
     /// Query to retrieve a cart by its unique identifier.
     /// </summary>
-    public class GetCartByIdQuery : IRequest<GetCartByIdResult>
+    public class GetCartByIdCommand : IRequest<GetCartByIdResult>
     {
         /// <summary>
         /// The unique identifier of the cart.
         /// </summary>
-        public Guid CartId { get; set; }
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of GetUserCommand
+        /// </summary>
+        /// <param name="id">The ID of the user to retrieve</param>
+        public GetCartByIdCommand(Guid id)
+        {
+            Id = id;
+        }
+
 
         public ValidationResultDetail Validate()
         {

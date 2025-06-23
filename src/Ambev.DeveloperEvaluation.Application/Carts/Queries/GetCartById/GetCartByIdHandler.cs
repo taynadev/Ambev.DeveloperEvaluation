@@ -6,9 +6,9 @@ using MediatR;
 namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById
 {
     /// <summary>
-    /// Handler for processing <see cref="GetCartByIdQuery"/> requests.
+    /// Handler for processing <see cref="GetCartByIdCommand"/> requests.
     /// </summary>
-    public class GetCartByIdHandler : IRequestHandler<GetCartByIdQuery, GetCartByIdResult>
+    public class GetCartByIdHandler : IRequestHandler<GetCartByIdCommand, GetCartByIdResult>
     {
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
@@ -30,7 +30,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById
         /// <param name="query">The GetCartById query</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The cart details if found</returns>
-        public async Task<GetCartByIdResult> Handle(GetCartByIdQuery query, CancellationToken cancellationToken)
+        public async Task<GetCartByIdResult> Handle(GetCartByIdCommand query, CancellationToken cancellationToken)
         {
             var validator = new GetCartByIdQueryValidator();
             var validationResult = await validator.ValidateAsync(query, cancellationToken);
@@ -38,7 +38,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var cart = await _cartRepository.GetByIdAsync(query.CartId, cancellationToken);
+            var cart = await _cartRepository.GetByIdAsync(query.Id, cancellationToken);
             if (cart == null)
                 throw new InvalidOperationException("Cart not found.");
 
