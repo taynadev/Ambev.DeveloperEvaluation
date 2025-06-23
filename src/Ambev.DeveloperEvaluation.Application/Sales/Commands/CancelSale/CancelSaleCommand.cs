@@ -16,6 +16,11 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CancelSale
         /// </summary>
         public Guid SaleId { get; set; }
 
+        public CancelSaleCommand(Guid saleId)
+        {
+            SaleId = saleId;
+        }
+
         /// <summary>
         /// Validates the command using <see cref="CancelSaleValidator"/>.
         /// </summary>

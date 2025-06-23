@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale;
+﻿using Ambev.DeveloperEvaluation.Application.Sales.Commands.CancelSale;
+using Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSaleFromCart;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
@@ -82,6 +83,28 @@ public class SalesController : BaseController
             Success = true,
             Message = "Sale created successfully",
             Data = _mapper.Map<CreateSaleFromCartResponse>(response)
+        });
+    }
+
+    /// <summary>
+    /// Cancels an existing sale
+    /// </summary>
+    /// <param name="id">The sale to be cancel</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The created sale details</returns>
+    [HttpPost("{id}/cancel")]
+    [ProducesResponseType(typeof(ApiResponseWithData<CancelSaleResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CancelSale([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var command = _mapper.Map<CancelSaleCommand>(id);
+        var response = await _mediator.Send(command, cancellationToken);
+
+        return Ok(new ApiResponseWithData<CancelSaleResponse>
+        {
+            Success = true,
+            Message = "Sale canceled successfully",
+            Data = _mapper.Map<CancelSaleResponse>(response)
         });
     }
 }
