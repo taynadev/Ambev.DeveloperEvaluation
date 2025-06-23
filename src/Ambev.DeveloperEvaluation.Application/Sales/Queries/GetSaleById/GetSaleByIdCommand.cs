@@ -6,12 +6,17 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Queries.GetSaleById
     /// <summary>
     /// Query to retrieve a specific sale by its unique identifier.
     /// </summary>
-    public class GetSaleByIdQuery : IRequest<GetSaleByIdResult>
+    public class GetSaleByIdCommand : IRequest<GetSaleByIdResult>
     {
         /// <summary>
         /// Gets or sets the ID of the sale to retrieve.
         /// </summary>
         public Guid SaleId { get; set; }
+
+        public GetSaleByIdCommand(Guid saleId)
+        {
+            SaleId = saleId;
+        }
 
         /// <summary>
         /// Validates the query using <see cref="GetSaleByIdValidator"/>.

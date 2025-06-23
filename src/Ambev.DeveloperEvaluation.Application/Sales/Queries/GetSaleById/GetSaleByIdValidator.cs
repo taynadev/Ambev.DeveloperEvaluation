@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Ambev.DeveloperEvaluation.Application.Sales.Queries.GetSaleById
 {
     /// <summary>
-    /// Validator for <see cref="GetSaleByIdQuery"/>.
+    /// Validator for <see cref="GetSaleByIdCommand"/>.
     /// </summary>
-    public class GetSaleByIdValidator : AbstractValidator<GetSaleByIdQuery>
+    public class GetSaleByIdValidator : AbstractValidator<GetSaleByIdCommand>
     {
         public GetSaleByIdValidator()
         {

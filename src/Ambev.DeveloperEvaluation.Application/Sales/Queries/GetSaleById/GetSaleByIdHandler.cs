@@ -8,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Queries.GetSaleById
     /// <summary>
     /// Handles the logic to retrieve a sale by its ID.
     /// </summary>
-    public class GetSaleByIdHandler : IRequestHandler<GetSaleByIdQuery, GetSaleByIdResult>
+    public class GetSaleByIdHandler : IRequestHandler<GetSaleByIdCommand, GetSaleByIdResult>
     {
         private readonly ISaleRepository _saleRepository;
         private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Queries.GetSaleById
         /// <param name="command">The GetSaleById query</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The Sale deatails</returns>
-        public async Task<GetSaleByIdResult> Handle(GetSaleByIdQuery query, CancellationToken cancellationToken)
+        public async Task<GetSaleByIdResult> Handle(GetSaleByIdCommand query, CancellationToken cancellationToken)
         {
             var validator = new GetSaleByIdValidator();
             var validationResult = await validator.ValidateAsync(query, cancellationToken);
