@@ -13,6 +13,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
     public class CreateCartHandler : IRequestHandler<CreateCartCommand, CreateCartResult>
     {
         private readonly ICartRepository _cartRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
@@ -20,10 +21,12 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
         /// Initializes a new instance of CreateCartHandler
         /// </summary>
         /// <param name="cartRepository">The cart repository</param>
+        /// <param name="productRepository">The product repository</param>
         /// <param name="mapper">The AutoMapper instance</param>
-        public CreateCartHandler(ICartRepository cartRepository, IMapper mapper, IMediator mediator)
+        public CreateCartHandler(ICartRepository cartRepository, IProductRepository productRepository, IMapper mapper, IMediator mediator)
         {
             _cartRepository = cartRepository;
+            _productRepository = productRepository;
             _mapper = mapper;
             _mediator = mediator;
         }
@@ -43,25 +46,18 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart
                 throw new ValidationException(validation.Errors);
 
             var cart = _mapper.Map<Cart>(command);
-            var created = await _cartRepository.CreateAsync(cart, cancellationToken);
-            var result = _mapper.Map<CreateCartResult>(created);
 
-            foreach (var item in cart.CartProducts)
+            foreach (var item in command.Products)
             {
-                var addCartProductCommand = new AddCartProductCommand
-                {
-                    UserId = cart.UserId,
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity
-                };
-                await _mediator.Send(addCartProductCommand, cancellationToken);
+                var product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
+                if (cart == null)
+                    throw new InvalidOperationException($"Product with id '{item.ProductId}' not found.");
 
-                result.Products.Add(new CartProductResultDto
-                {
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity
-                });
+                cart.AddItem(item.ProductId, item.Quantity, product!.Price);
             }
+
+            var created = await _cartRepository.CreateAsync(cart, cancellationToken);
+            var result = _mapper.Map<CreateCartResult>(created);            
 
             
             return result;

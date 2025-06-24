@@ -12,6 +12,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSaleFromCar
         {
             CreateMap<CreateSaleFromCartCommand, Sale>();
             CreateMap<Sale, CreateSaleFromCartResult>();
+            CreateMap<SaleItem, CreateSaleItemFromCartResultDto>();
         }
     }
 }

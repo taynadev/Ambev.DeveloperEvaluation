@@ -24,20 +24,20 @@ public class Cart : BaseEntity
     /// <summary>
     /// Gets the list of items currently in the cart.
     /// </summary>
-    private readonly List<CartProduct> _items = new();
-    public IReadOnlyCollection<CartProduct> CartProducts => _items.AsReadOnly();
+    private readonly List<CartProduct> _cartProducts = new();
+    public IReadOnlyCollection<CartProduct> CartProducts => _cartProducts;
 
     /// <summary>
     /// Gets the total amount of all items in the cart (without discounts).
     /// </summary>
     [NotMapped]
-    public decimal TotalAmount => _items.Sum(i => i.TotalAmount);
+    public decimal TotalAmount => _cartProducts.Sum(i => i.TotalAmount);
 
     /// <summary>
     /// Gets the total amount of all items in the cart including discounts.
     /// </summary>
     [NotMapped]
-    public decimal TotalAmountWithDiscount => _items.Sum(i => i.TotalAmountWithDiscount);
+    public decimal TotalAmountWithDiscount => _cartProducts.Sum(i => i.TotalAmountWithDiscount);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Cart"/> class.
@@ -59,7 +59,7 @@ public class Cart : BaseEntity
     /// </summary>
     public void AddItem(Guid productId, int quantity, decimal unitPrice)
     {
-        var existingItem = _items.FirstOrDefault(i => i.ProductId == productId);
+        var existingItem = _cartProducts.FirstOrDefault(i => i.ProductId == productId);
         if (existingItem is not null)
         {
             existingItem.IncreaseQuantity(quantity);
@@ -67,7 +67,7 @@ public class Cart : BaseEntity
         else
         {
             var item = new CartProduct(productId,  quantity);
-            _items.Add(item);
+            _cartProducts.Add(item);
         }
     }
 
@@ -76,9 +76,9 @@ public class Cart : BaseEntity
     /// </summary>
     public void RemoveItem(Guid itemId)
     {
-        var item = _items.FirstOrDefault(i => i.Id == itemId);
+        var item = _cartProducts.FirstOrDefault(i => i.Id == itemId);
         if (item is not null)
-            _items.Remove(item);
+            _cartProducts.Remove(item);
     }
 
     /// <summary>
