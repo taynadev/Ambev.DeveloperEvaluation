@@ -1,5 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCart;
 using Ambev.DeveloperEvaluation.Application.Carts.Commands.CreateCartProduct;
+using Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCart;
 using Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
@@ -78,6 +79,21 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
                 Message = "Cart retrieved successfully",
                 Data = _mapper.Map<GetCartResponse>(response)
             });
+        }
+
+        /// <summary>
+        /// Retrieves a paginated list of carts with optional filters and ordering.
+        /// </summary>
+        /// <param name="queryParams">Query parameters from the request</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Paginated list of carts</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(GetCartsResult), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll([FromQuery] Dictionary<string, string?> queryParams, CancellationToken cancellationToken)
+        {
+            var query = new GetCartsCommand(queryParams);
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
     }
 }
