@@ -1,6 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.Commands.CancelSale;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCart;
+using Ambev.DeveloperEvaluation.Application.Sales.Commands.CancelSale;
 using Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSaleFromCart;
+using Ambev.DeveloperEvaluation.Application.Sales.Queries.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.Queries.GetSaleById;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
@@ -133,5 +135,20 @@ public class SalesController : BaseController
             Message = "Sale retrieved successfully",
             Data = _mapper.Map<GetSaleResponse>(response)
         });
+    }
+
+    /// <summary>
+    /// Retrieves a paginated list of sales with optional filters and ordering.
+    /// </summary>
+    /// <param name="queryParams">Query parameters from the request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Paginated list of sales</returns>
+    [HttpGet]
+    [ProducesResponseType(typeof(GetSalesResult), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll([FromQuery] Dictionary<string, string?> queryParams, CancellationToken cancellationToken)
+    {
+        var query = new GetSalesCommand(queryParams);
+        var result = await _mediator.Send(query, cancellationToken);
+        return Ok(result);
     }
 }

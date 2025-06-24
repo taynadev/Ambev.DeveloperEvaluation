@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -105,7 +106,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         {
             var parameter = Expression.Parameter(typeof(T), "x");
             var property = Expression.Property(parameter, propertyName);
-            var constant = Expression.Constant(Convert.ChangeType(value, property.Type));
+            var constant = Expression.Constant(ChangeType(value, property.Type));
             var equal = Expression.Equal(property, constant);
             return Expression.Lambda<Func<T, bool>>(equal, parameter);
         }
@@ -114,7 +115,17 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         {
             var parameter = Expression.Parameter(typeof(T), "x");
             var property = Expression.Property(parameter, propertyName);
-            var convertedValue = Convert.ChangeType(value, property.Type);
+            object? convertedValue;
+
+            if (property.Type == typeof(DateTime) || property.Type == typeof(DateTime?))
+            {
+                var parsed = DateTime.Parse(value!);
+                convertedValue = DateTime.SpecifyKind(parsed, DateTimeKind.Utc);
+            }
+            else
+            {
+                convertedValue = ChangeType(value, property.Type); // usa seu método genérico
+            }
             var constant = Expression.Constant(convertedValue);
 
             var comparison = isMin
@@ -130,6 +141,19 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             var property = Expression.Property(parameter, propertyName);
             var converted = Expression.Convert(property, typeof(object));
             return Expression.Lambda<Func<T, object>>(converted, parameter);
+        }
+
+        private static object ChangeType(string? value, Type targetType)
+        {
+            if (value is null) return default!;
+
+            var converter = TypeDescriptor.GetConverter(targetType);
+            if (converter.CanConvertFrom(typeof(string)))
+            {
+                return converter.ConvertFromInvariantString(value)!;
+            }
+
+            throw new InvalidCastException($"Cannot convert the value: {value}, from string to {targetType.Name}");
         }
     }
 
