@@ -9,10 +9,16 @@
         /// Gets or sets the unique identifier of the created cart.
         /// </summary>
         public Guid Id { get; set; }
+
         /// <summary>
-        /// Gets or sets the customer identifier.
+        /// Gets or sets the unique identifier of the userId cart.
         /// </summary>
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
+
+        /// <summary>
+        /// The creation date of the cart.
+        /// </summary>
+        public DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or sets the creation date of the cart.

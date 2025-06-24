@@ -17,8 +17,8 @@ public class CartConfiguration : IEntityTypeConfiguration<Cart>
         builder.Property(c => c.Date).IsRequired();
 
         builder.HasMany(c => c.CartProducts)
-            .WithOne()
-            .HasForeignKey(i => i.CartId)
+            .WithOne(cp => cp.Cart)
+            .HasForeignKey(cp => cp.CartId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
